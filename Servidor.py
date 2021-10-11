@@ -5,7 +5,7 @@ def workerThread(s):
     while True: 
         msg = s.recv(1024)
         if not msg: break
-        print('O cliente enviou: ', msg.decode())
+        print('O vizinho enviou: ', msg.decode())
         msg = msg[::-1] #Inverte a String
         try:
            s.send(msg)
@@ -15,7 +15,7 @@ def workerThread(s):
   
 def Main(): 
     host = "" 
-    port = 2802
+    port = 2803
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     server_socket.bind((host, port)) 
@@ -25,7 +25,7 @@ def Main():
 
     while True: 
         s, addr = server_socket.accept() 
-        print('Cliente Conectado:', addr[0], ':', addr[1])  
+        print('\nVizinho conectado:', addr[0], ':', addr[1])  
         tw = threading.Thread(target=workerThread, args=[s])
         tw.start()
 
