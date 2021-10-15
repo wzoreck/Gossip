@@ -63,20 +63,20 @@ def clientThread(neighbors_ports, msg=None, break_at_finish=False):
 
         for port in neighbors_ports:
             dest = ('127.0.0.1', int(port))
-            
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client_socket.settimeout(5)
-            client_socket.connect(dest)
-            client_socket.send(msg.encode('UTF-8'))
 
             try:
+                client_socket.connect(dest)
+                client_socket.send(msg.encode('UTF-8'))
+
                 response, server = client_socket.recvfrom(1024)
                 print(f'Resposta recebida: {response.decode("UTF-8")}')
+                
+                client_socket.shutdown(socket.SHUT_RDWR)
             except:
                 print('Ocorreu um erro...')
             
-            client_socket.shutdown(socket.SHUT_RDWR)
-
         msg = None
         if break_at_finish: break
 
